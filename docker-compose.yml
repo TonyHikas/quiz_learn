@@ -1,0 +1,31 @@
+version: '3.7'
+services:
+  postgresql:
+    container_name: psql
+    image: postgres:13.4
+    env_file: .env
+
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5435:5432"
+
+  server:
+    container_name: server
+    build:
+      context: .
+      target: app
+    env_file: .env
+    working_dir: /code
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    depends_on:
+      - postgresql
+    links:
+      - postgresql
+    ports:
+      - "8001:8000"
+
+volumes:
+  pgdata:
