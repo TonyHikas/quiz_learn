@@ -11,8 +11,20 @@ class Question(models.Model):
         models.URLField(),
         verbose_name='Изображения'
     )
-    right_answer = models.ForeignKey('quiz.Answer', on_delete=models.SET_NULL, null=True)
-    category = models.ForeignKey('quiz.Category', on_delete=models.SET_NULL, blank=True, null=True)
+    right_answer = models.ForeignKey(
+        'quiz.Answer',
+        on_delete=models.SET_NULL,
+        verbose_name='Правильный ответ',
+        related_name='questions_for_right',
+        blank=True,
+        null=True,
+    )
+    category = models.ForeignKey(
+        'quiz.Category',
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True
+    )
 
 
 class Answer(models.Model):
