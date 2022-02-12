@@ -9,7 +9,8 @@ class Question(models.Model):
     )
     images = ArrayField(
         models.URLField(),
-        verbose_name='Изображения'
+        verbose_name='Изображения',
+        default=[]
     )
     category = models.ForeignKey(
         'quiz.Category',
