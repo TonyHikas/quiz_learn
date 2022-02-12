@@ -11,14 +11,6 @@ class Question(models.Model):
         models.URLField(),
         verbose_name='Изображения'
     )
-    right_answer = models.ForeignKey(
-        'quiz.Answer',
-        on_delete=models.SET_NULL,
-        verbose_name='Правильный ответ',
-        related_name='questions_for_right',
-        blank=True,
-        null=True,
-    )
     category = models.ForeignKey(
         'quiz.Category',
         on_delete=models.SET_NULL,
@@ -42,6 +34,10 @@ class Answer(models.Model):
         on_delete=models.CASCADE,
         verbose_name='Вопрос',
         related_name='answers'
+    )
+    right = models.BooleanField(
+        default=False,
+        verbose_name='Является ли ответ правильным'
     )
 
 
