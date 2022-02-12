@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from quiz.api.docs import GetQuestionsParameters
 from quiz.models import Question
 from quiz.serializers import GetQuestionsRequestSerializer, QuestionSerializer
+from quiz.utils.db.question import QuestionQueryFacade
 
 
 @method_decorator(
@@ -35,6 +36,11 @@ class GetQuestionsView(GenericAPIView):
 
         if category_id := request_data.get('category_id'):
             queryset = queryset.filter(category_id=category_id)
+
+        # filter questions that have at least one right answer
+        queryset = queryset.annotate(
+            have_right_answers=QuestionQueryFacade.annotate_has_right_questions()
+        ).filter(have_right_answers=True)
 
         queryset = queryset[:request_data.get('questions_count')]
         serialized_questions = QuestionSerializer(queryset, many=True)
