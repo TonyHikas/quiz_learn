@@ -1,5 +1,6 @@
 from drf_yasg import openapi
 
+
 GetQuestionsParameters = [
     openapi.Parameter(
         type=openapi.TYPE_INTEGER,

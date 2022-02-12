@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from quiz.models import Question
+from quiz.models import Question, Answer
 
 
 class GetQuestionsRequestSerializer(serializers.Serializer):
@@ -10,8 +10,17 @@ class GetQuestionsRequestSerializer(serializers.Serializer):
     questions_count = serializers.IntegerField(min_value=1, max_value=20, default=5)
 
 
+class AnswerSerializer(serializers.ModelSerializer):
+    """Serializer for answer data for question."""
+
+    class Meta:
+        model = Answer
+        exclude = ['question', 'right']
+
+
 class QuestionSerializer(serializers.ModelSerializer):
-    """Serializer for full questions data."""
+    """Serializer for get questions for quiz."""
+    answers = AnswerSerializer(many=True)
 
     class Meta:
         model = Question
