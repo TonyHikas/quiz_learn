@@ -1,8 +1,10 @@
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
+from base.models import TimeStampedModel
 
-class Question(models.Model):
+
+class Question(TimeStampedModel):
     text = models.TextField(
         null=True,
         blank=True
@@ -19,8 +21,13 @@ class Question(models.Model):
         null=True
     )
 
+    class Meta:
+        verbose_name = 'Вопрос'
+        verbose_name_plural = 'Вопросы'
+        db_table = 'question'
 
-class Answer(models.Model):
+
+class Answer(TimeStampedModel):
     text = models.CharField(
         max_length=255,
         verbose_name='Тест ответа'
@@ -41,9 +48,21 @@ class Answer(models.Model):
         verbose_name='Является ли ответ правильным'
     )
 
+    class Meta:
+        verbose_name = 'Ответ'
+        verbose_name_plural = 'Ответы'
+        db_table = 'answer'
 
-class Category(models.Model):
+
+class Category(TimeStampedModel):
     name = models.CharField(
         max_length=255,
         verbose_name='Название'
     )
+
+    class Meta:
+        verbose_name = 'Категория'
+        verbose_name_plural = 'Категории'
+        db_table = 'category'
+
+
