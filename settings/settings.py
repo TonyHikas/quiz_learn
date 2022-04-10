@@ -133,7 +133,7 @@ STATIC_ROOT = '/var/www/pereplan/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-APPEND_SLASH = False
+APPEND_SLASH = True
 
 
 REST_FRAMEWORK = {

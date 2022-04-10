@@ -7,6 +7,12 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Проверка знаний языков программирования</title>
+
+    <!-- select2 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
 </head>
@@ -15,19 +21,64 @@
     <div class="logo">Проверка знаний языков программирования</div>
 </header>
 <div class="content">
-    <section id="welcome" style="display: none"></section>
-    <section id="auth-step-1" style="display: block">
+    <section id="welcome">
+        <h1 class="mid-title">Проверь свои знания - пройти тест</h1>
+        <div class="about-text">Результат доступен сразу же после прохождения.</div>
+        <button id="welcome-next" class="base-input next-btn welcome-btn">Начать</button>
+    </section>
+    <section id="auth-step-1" style="display: none">
         <h2 class="mid-title">Вход/Регистрация</h2>
         <form class="mini-form">
             <label>Email:<br>
             <input class="base-input" type="email" name="email">
-            <input id="auth-1-next" class="base-input next_btn" type="submit" value="Далее">
+                <div class="button-line">
+                    <input id="auth-1-back" class="base-input back-btn" type="submit" value="Назад">
+                    <input id="auth-1-next" class="base-input next-btn" type="submit" value="Далее">
+                </div>
 
             </label>
         </form>
     </section>
-    <section id="auth-step-2" style="display: none"></section>
-    <section id="question" style="display: none"></section>
+    <section id="auth-step-2" style="display: none">
+        <h2 class="mid-title">Подтверждение email:</h2>
+        <form class="mini-form">
+            <label>Код из письма:<br>
+                <input class="base-input" type="text" name="code">
+                <div class="button-line">
+                    <input id="auth-2-back" class="base-input back-btn" type="submit" value="Назад">
+                    <input id="auth-2-next" class="base-input next-btn" type="submit" value="Далее">
+                </div>
+
+                {# todo добавить повторную отправку #}
+            </label>
+        </form>
+    </section>
+    <section id="start" style="display: none">
+        <h2 class="mid-title">Выберите категорию:</h2>
+        <form class="mini-form">
+                <select class="base-select" name="category" id="category-select"></select>
+                <input id="start-next" class="base-input next-btn" type="submit" value="Начать тест">
+        </form>
+    </section>
+    <section id="question" style="display: none">
+        <div class="question-title" id="question-title">Вопрос?</div>
+        <div class="question-images" id="question-images">
+        </div>
+        <div class="question-answers">
+            <label class="answer-label">
+                <input class="answer_radio" name="answer" type="radio" value="1">
+                Ответ 1
+            </label>
+            <label class="answer-label">
+                <input class="answer_radio" name="answer" type="radio" value="2">
+                Ответ 2
+            </label>
+        </div>
+        <div class="button-line">
+            <input id="previous-question" class="base-input back-btn" type="submit" value="Назад">
+            <input id="next-question" class="base-input next-btn" type="submit" value="Далее">
+        </div>
+    </section>
 
 </div>
 
