@@ -1,1 +1,35 @@
-Hello world!
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Проверка знаний языков программирования</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+</head>
+<body>
+<header>
+    <div class="logo">Проверка знаний языков программирования</div>
+</header>
+<div class="content">
+    <section id="welcome" style="display: none"></section>
+    <section id="auth-step-1" style="display: block">
+        <h2 class="mid-title">Вход/Регистрация</h2>
+        <form class="mini-form">
+            <label>Email:<br>
+            <input class="base-input" type="email" name="email">
+            <input id="auth-1-next" class="base-input next_btn" type="submit" value="Далее">
+
+            </label>
+        </form>
+    </section>
+    <section id="auth-step-2" style="display: none"></section>
+    <section id="question" style="display: none"></section>
+
+</div>
+
+</body>
+</html>
