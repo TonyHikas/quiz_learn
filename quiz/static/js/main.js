@@ -1,7 +1,7 @@
 let current_question = 0
-let total_questions = 0
+let last_question = 0
 let questions = []
-let answers = {}
+let answers_result = {}
 let answers_check = {}
 let category_id = null
 
@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     let auth_1_section = document.getElementById("auth-step-1");
     let auth_2_section = document.getElementById("auth-step-2");
     let question_section = document.getElementById("question");
+    let result_section = document.getElementById("result");
     let start_section = document.getElementById("start");
     document.getElementById("welcome-next").onclick = function (e) {
         e.preventDefault()
@@ -61,6 +62,29 @@ document.addEventListener("DOMContentLoaded", function(event) {
         show_question(0)
         show(question_section);
     };
+    document.getElementById("next-question").onclick = function (e) {
+        e.preventDefault()
+        // todo save answer
+        if (current_question === last_question){
+            hide(question_section);
+            // todo load result
+            show(result_section);
+        } else{
+            current_question += 1
+            show_question(current_question)
+        }
+    };
+    document.getElementById("previous-question").onclick = function (e) {
+        if (current_question === 0){
+            // todo alert what test will be reset
+            hide(question_section);
+            // todo load result
+            show(start_section);
+        } else{
+            current_question -= 1
+            show_question(current_question)
+        }
+    };
 });
 
 function hide(element){
@@ -70,8 +94,6 @@ function show(element){
     element.style.display = 'block'
 }
 function load_questions(){
-    // add auth
-    // Authorization: Token 9187238a34b19fb7f7f2a73810b4fc923161f657
     let response = $.ajax({
         type: "GET",
         url: "/api/quiz/get_questions/",
@@ -83,6 +105,7 @@ function load_questions(){
         async: false
     });
     questions = response.responseJSON
+    last_question = questions.length - 1
 }
 function show_question(question_number){
     let question = null
@@ -104,6 +127,8 @@ function show_question(question_number){
         image.className = 'question-image'
         images.append(image)
     })
+    // todo pass list of answers
+    // todo select checked answer
 }
 function check_auth(){
     let token = localStorage.getItem('token')
