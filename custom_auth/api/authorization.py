@@ -40,7 +40,7 @@ class AuthView(APIView):
     def get(self, request, *args, **kwargs):
         """Send verification code to email."""
         serializer = VerificationCodeRequestSerializer(
-            data=request.data,
+            data=request.GET,
             context={'request': request}
         )
         serializer.is_valid(raise_exception=True)

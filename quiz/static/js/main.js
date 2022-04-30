@@ -4,6 +4,8 @@ let questions = []
 let answers_result = {}
 let answers_check = {}
 let category_id = null
+let email = null
+let verify_code = null
 
 document.addEventListener("DOMContentLoaded", function(event) {
     $('#category-select').select2({
@@ -36,6 +38,24 @@ document.addEventListener("DOMContentLoaded", function(event) {
     };
     document.getElementById("auth-1-next").onclick = function (e) {
         e.preventDefault()
+        let email_input = document.getElementById('auth-email')
+        email = email_input.value
+        if(email== null || email=== '') {
+            alert('Укажите email')
+            return
+        }
+        const status = send_email(email)
+        if (status===429){
+            alert('Отправлять код можно только раз в минуту')
+            return
+        }else if(status===400) {
+            alert('Email содержит ошибку')
+            return
+        }else if (status!==200){
+            alert('Неизвестная ошибка')
+            return
+        }
+
         hide(auth_1_section);
         show(auth_2_section);
     };
@@ -45,6 +65,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
         show(auth_1_section);
     };
     document.getElementById("auth-2-next").onclick = function (e) {
+        let code_input = document.getElementById('auth-code')
+        verify_code = code_input.value
+        if(verify_code== null || verify_code=== '') {
+            alert('Укажите код из письма')
+            return
+        }
+        const token = send_code(email, verify_code)
+        if (token === null){
+            return
+        }else{
+           localStorage.setItem('token', token)
+        }
         e.preventDefault()
         hide(auth_2_section);
         show(start_section);
@@ -85,6 +117,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
             show_question(current_question)
         }
     };
+    document.getElementById("result-select-category").onclick = function (e) {
+        e.preventDefault()
+        hide(result_section);
+        show(start_section);
+    };
+    document.getElementById("result-retry").onclick = function (e) {
+        e.preventDefault()
+        hide(result_section);
+        load_questions();
+        show_question(0)
+        show(question_section);
+    };
 });
 
 function hide(element){
@@ -92,6 +136,38 @@ function hide(element){
 }
 function show(element){
     element.style.display = 'block'
+}
+function send_email(user_email){
+    let response = $.ajax({
+        type: "GET",
+        url: "/api/auth/",
+        data: {
+            email: user_email
+        },
+        async: false
+    });
+    return response.status
+}
+function send_code(user_email, code){
+    let response = $.ajax({
+        type: "POST",
+        url: "/api/auth/",
+        data: {
+            email: user_email,
+            code: code
+        },
+        async: false
+    });
+
+    if(response.status===400) {
+        alert('Неверный код')
+        return
+    }else if (response.status!==200){
+        alert('Неизвестная ошибка')
+        return
+    }
+    response_data = response.responseJSON
+    return response_data.token
 }
 function load_questions(){
     let response = $.ajax({

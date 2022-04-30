@@ -30,7 +30,7 @@
         <h2 class="mid-title">Вход/Регистрация</h2>
         <form class="mini-form">
             <label>Email:<br>
-            <input class="base-input" type="email" name="email">
+            <input class="base-input" type="email" name="email" id="auth-email">
                 <div class="button-line">
                     <input id="auth-1-back" class="base-input back-btn" type="submit" value="Назад">
                     <input id="auth-1-next" class="base-input next-btn" type="submit" value="Далее">
@@ -43,7 +43,7 @@
         <h2 class="mid-title">Подтверждение email:</h2>
         <form class="mini-form">
             <label>Код из письма:<br>
-                <input class="base-input" type="text" name="code">
+                <input class="base-input" type="text" name="code" id="auth-code">
                 <div class="button-line">
                     <input id="auth-2-back" class="base-input back-btn" type="submit" value="Назад">
                     <input id="auth-2-next" class="base-input next-btn" type="submit" value="Далее">
@@ -81,8 +81,8 @@
     </section>
     <section id="result" style="display: none">
         <div class="button-line">
-            <input id="???-next" class="base-input next-btn" type="submit" value="Выбрать категорию">
-            <input id="???-next" class="base-input next-btn" type="submit" value="Повторить">
+            <input id="result-select-category" class="base-input next-btn" type="submit" value="Выбрать категорию">
+            <input id="result-retry" class="base-input next-btn" type="submit" value="Повторить">
         </div>
     </section>
 
