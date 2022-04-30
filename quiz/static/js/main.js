@@ -1,8 +1,7 @@
 let current_question = 0
 let last_question = 0
 let questions = []
-let answers_result = {}
-let answers_check = {}
+let user_answers = {}
 let category_id = null
 let email = null
 let verify_code = null
@@ -96,10 +95,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
     };
     document.getElementById("next-question").onclick = function (e) {
         e.preventDefault()
-        // todo save answer
+        const saved = save_answer()
+        if (!saved){
+            alert('Вы не выбрали ответ')
+            return
+        }
         if (current_question === last_question){
             hide(question_section);
             // todo load result
+            send_answers()
             show(result_section);
         } else{
             current_question += 1
@@ -107,11 +111,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     };
     document.getElementById("previous-question").onclick = function (e) {
+        save_answer()
         if (current_question === 0){
-            // todo alert what test will be reset
-            hide(question_section);
-            // todo load result
-            show(start_section);
+            if (confirm('Выйти из теста? Прогресс будет сброшен')){
+                hide(question_section);
+                show(start_section);
+            }
         } else{
             current_question -= 1
             show_question(current_question)
@@ -126,6 +131,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         e.preventDefault()
         hide(result_section);
         load_questions();
+        current_question = 0
         show_question(0)
         show(question_section);
     };
@@ -195,18 +201,63 @@ function show_question(question_number){
 
     let title = document.getElementById('question-title')
     let images = document.getElementById('question-images')
+    let answers = document.getElementById('question-answers')
     title.innerHTML = question.text
     images.innerHTML = ''
+    answers.innerHTML = ''
     question.images.forEach((img_src)=>{
         let image = document.createElement('img');
         image.src = img_src
         image.className = 'question-image'
         images.append(image)
     })
-    // todo pass list of answers
-    // todo select checked answer
+    question.answers.forEach((answer)=>{
+        let label = document.createElement('label');
+        label.className = 'answer-label'
+        let input = document.createElement('input');
+        input.name = 'answer'
+        input.type = 'radio'
+        input.value = answer.id
+        input.className = 'answer-radio'
+        if (user_answers[question_number+1] === answer.id){
+            input.checked = true
+        }
+        label.append(input)
+        label.append(answer.text)
+        answers.append(label)
+    })
 }
 function check_auth(){
     let token = localStorage.getItem('token')
     return token != null && token !== ''
+}
+function save_answer(){
+    const checked_input = document.querySelector('.answer-radio:checked');
+    if (checked_input === null){
+        return false
+    }
+    user_answers[current_question+1] = Number(checked_input.value)
+    return true
+}
+function send_answers(){
+    let data = []
+    Object.keys(user_answers).forEach(key=>{
+        data.push({
+            question_id: key,
+            answer_id: user_answers[key]
+        })
+    })
+    let response = $.ajax({
+        type: "POST",
+        url: "/api/quiz/check_answers/",
+        data: JSON.stringify(data),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: { 'Authorization': 'Token '+ localStorage.getItem('token')},
+        async: false
+    });
+    let result = response.responseJSON
+    let total_right= document.getElementById('total-right')
+    total_right.innerText = 'Правильных ответов: '+ result.right + ' из ' + result.total
+
 }
