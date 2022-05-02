@@ -26,6 +26,9 @@ class Question(TimeStampedModel):
         verbose_name_plural = 'Вопросы'
         db_table = 'question'
 
+    def __str__(self):
+        return self.text
+
 
 class Answer(TimeStampedModel):
     text = models.CharField(
@@ -53,6 +56,9 @@ class Answer(TimeStampedModel):
         verbose_name_plural = 'Ответы'
         db_table = 'answer'
 
+    def __str__(self):
+        return self.text
+
 
 class Category(TimeStampedModel):
     name = models.CharField(
@@ -64,5 +70,8 @@ class Category(TimeStampedModel):
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
         db_table = 'category'
+
+    def __str__(self):
+        return self.name
 
 

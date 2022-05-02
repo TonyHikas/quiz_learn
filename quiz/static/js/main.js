@@ -260,4 +260,53 @@ function send_answers(){
     let total_right= document.getElementById('total-right')
     total_right.innerText = 'Правильных ответов: '+ result.right + ' из ' + result.total
 
+    let questions_result = document.getElementById('questions-result')
+    questions_result.innerHTML = ''
+    // show questions with result
+    let i = 0
+    questions.forEach((question)=>{
+        let check_result = result.check_result[i]
+        let title = document.createElement('div')
+        title.className = 'question-title'
+        let images = document.createElement('div')
+        images.className = 'question-images'
+        let answers = document.createElement('div')
+        answers.className = 'question-answers'
+        title.innerHTML = question.text
+        images.innerHTML = ''
+        answers.innerHTML = ''
+        question.images.forEach((img_src)=>{
+            let image = document.createElement('img');
+            image.src = img_src
+            image.className = 'question-image'
+            images.append(image)
+        })
+        question.answers.forEach((answer)=>{
+            let label = document.createElement('label');
+            label.className = 'answer-label'
+            let input = document.createElement('input');
+            input.name = 'answer'
+            input.type = 'radio'
+            input.disabled = true
+            input.value = answer.id
+            input.className = 'answer-radio'
+            if (user_answers[i+1] === answer.id){
+                input.checked = true
+            }
+            if (answer.id === check_result.right_answer_id){
+                label.style.backgroundColor = 'green'
+            }
+            if (!check_result.is_right && answer.id === check_result.user_answer_id){
+                label.style.backgroundColor = 'red'
+            }
+            label.append(input)
+            label.append(answer.text)
+            answers.append(label)
+        })
+        questions_result.append(title)
+        questions_result.append(images)
+        questions_result.append(answers)
+        questions_result.append(document.createElement('hr'))
+        i++
+    })
 }
