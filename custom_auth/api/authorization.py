@@ -1,7 +1,9 @@
 import random
 from datetime import timedelta
 
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.authtoken.models import Token
@@ -52,7 +54,13 @@ class AuthView(APIView):
             )
 
         validation_code_object = self._create_verification_code(email)
-        # todo send email
+        send_mail(
+            'Код подтверждения',
+            f'Ваш код для подтверждения: {validation_code_object.code}',
+            settings.EMAIL_HOST_USER,
+            [validation_code_object.email],
+            fail_silently=False
+        )
         return Response(status=status.HTTP_200_OK)
 
     @staticmethod
