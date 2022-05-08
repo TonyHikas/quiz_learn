@@ -225,6 +225,8 @@ function show_question(question_number){
         input.className = 'answer-radio'
         if (user_answers[question_number+1] === answer.id){
             input.checked = true
+        }else{
+            input.checked = false
         }
         label.append(input)
         label.append(answer.text)
