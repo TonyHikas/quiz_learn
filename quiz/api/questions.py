@@ -52,7 +52,7 @@ class GetQuestionsView(GenericAPIView):
         # filter questions that have at least one right answer
         queryset = queryset.annotate(
             have_right_answers=QuestionQueryFacade.annotate_has_right_questions()
-        ).filter(have_right_answers=True)
+        ).filter(have_right_answers=True).order_by('?')
 
         queryset = queryset[:request_data.get('questions_count')]
         serialized_questions = QuestionSerializer(queryset, many=True)
