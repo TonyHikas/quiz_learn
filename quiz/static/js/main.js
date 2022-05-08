@@ -125,11 +125,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
     document.getElementById("result-select-category").onclick = function (e) {
         e.preventDefault()
         hide(result_section);
+        user_answers = {}
         show(start_section);
     };
     document.getElementById("result-retry").onclick = function (e) {
         e.preventDefault()
         hide(result_section);
+        user_answers = {}
         load_questions();
         current_question = 0
         show_question(0)
