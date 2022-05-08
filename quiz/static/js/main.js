@@ -221,11 +221,7 @@ function show_question(question_number){
         input.type = 'radio'
         input.value = answer.id
         input.className = 'answer-radio'
-        if (user_answers[question_number+1] === answer.id){
-            input.checked = true
-        }else{
-            input.checked = false
-        }
+        input.checked = user_answers[question_number + 1] === answer.id;
         label.append(input)
         label.append(answer.text)
         answers.append(label)
@@ -246,10 +242,10 @@ function save_answer(){
 }
 function send_answers(){
     let data = []
-    Object.keys(user_answers).forEach(key=>{
+    Object.keys(questions).forEach(question=>{
         data.push({
-            question_id: key,
-            answer_id: user_answers[key]
+            question_id: question.id,
+            answer_id: user_answers[question.id]
         })
     })
     let response = $.ajax({
