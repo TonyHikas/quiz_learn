@@ -242,7 +242,7 @@ function save_answer(){
 }
 function send_answers(){
     let data = []
-    Object.values(questions).forEach(question=>{
+    questions.forEach(question=>{
         data.push({
             question_id: question.id,
             answer_id: user_answers[question.id]
