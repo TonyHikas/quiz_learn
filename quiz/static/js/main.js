@@ -199,9 +199,11 @@ function show_question(question_number){
         return
     }
 
+    let question_id = document.getElementById('question-id')
     let title = document.getElementById('question-title')
     let images = document.getElementById('question-images')
     let answers = document.getElementById('question-answers')
+    question_id.value = question.id
     title.innerHTML = question.text
     images.innerHTML = ''
     answers.innerHTML = ''
@@ -232,11 +234,12 @@ function check_auth(){
     return token != null && token !== ''
 }
 function save_answer(){
+    let question_id = document.getElementById('question-id')
     const checked_input = document.querySelector('.answer-radio:checked');
     if (checked_input === null){
         return false
     }
-    user_answers[current_question+1] = Number(checked_input.value)
+    user_answers[question_id.value] = Number(checked_input.value)
     return true
 }
 function send_answers(){
