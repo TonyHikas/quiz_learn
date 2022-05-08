@@ -41,10 +41,10 @@ class UserAnswerCheckSerializer(serializers.Serializer):
     is_right = serializers.BooleanField()
 
     user_answer_id = serializers.IntegerField(required=False)
-    user_answer_description = serializers.CharField(required=False)
+    user_answer_description = serializers.CharField(required=False, allow_blank=True)
 
     right_answer_id = serializers.IntegerField()
-    right_answer_description = serializers.CharField()
+    right_answer_description = serializers.CharField(required=False, allow_blank=True)
 
 
 class AnswerCheckResponseSerializer(serializers.Serializer):
