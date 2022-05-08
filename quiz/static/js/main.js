@@ -102,7 +102,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
         if (current_question === last_question){
             hide(question_section);
-            // todo load result
             send_answers()
             show(result_section);
         } else{
@@ -131,7 +130,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         e.preventDefault()
         hide(result_section);
         load_questions();
-        current_question = 0
         show_question(0)
         show(question_section);
     };
@@ -187,6 +185,7 @@ function load_questions(){
         async: false
     });
     user_answers = {}
+    current_question = 0
     questions = response.responseJSON
     last_question = questions.length - 1
 }
