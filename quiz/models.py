@@ -12,7 +12,9 @@ class Question(TimeStampedModel):
     images = ArrayField(
         models.URLField(),
         verbose_name='Изображения',
-        default=[]
+        default=list,
+        blank=True,
+        null=False
     )
     category = models.ForeignKey(
         'quiz.Category',
