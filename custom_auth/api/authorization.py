@@ -66,6 +66,7 @@ class AuthView(APIView):
     @staticmethod
     def _get_or_create_user(email: str) -> User:
         user, _created = User.objects.get_or_create(
+            username=email,
             email=email,
         )
         return user
